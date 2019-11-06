@@ -1,24 +1,23 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
-import java.util.concurrent.TimeUnit;
+import utils.WebDriverFactory;
 
 public class BaseTest {
 
-
-    WebDriver driver;
-
-    @BeforeTest
+    @BeforeTest(groups = "Regression")
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Kary\\JiraLogin1\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        // create 100 users
+        // grant permissions
+        WebDriverFactory.createInstance("Chrome");
     }
 
-    @AfterTest
+    @AfterTest(groups = "Regression")
     public void tearDown() {
-        this.driver.quit();
+        // Close the driver
+        WebDriverFactory.getDriver().quit();
     }
+
 }

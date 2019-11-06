@@ -1,45 +1,45 @@
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import io.qameta.allure.Feature;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
+import pages.LoginPage;
+import pages.CreateIssuePage;
+import utils.WebDriverFactory;
 
 public class JiraLogin extends BaseTest {
 
-
-
-    @Test
+    @Feature("Login")
+    @Test(groups = {"Regression"})
     public void loginTest() {
-        this.driver.get("https://jira.hillel.it/login.jsp");
-        driver.findElement(By.xpath("//input[@name='os_username']")).sendKeys("Karina_Soltanovskaya");
-        driver.findElement(By.xpath("//input[@name='os_password']")).sendKeys("Karina_Soltanovskaya");
-        driver.findElement(By.xpath("//input[@name='login']")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://jira.hillel.it/secure/Dashboard.jspa");
+        LoginPage loginPage = new LoginPage();
+        loginPage.navigate();
+        loginPage.loginToJira("webinar5", "webinar5");
+        Assert.assertEquals(WebDriverFactory.getDriver().getCurrentUrl(), "https://jira.hillel.it/secure/Dashboard.jspa");
+        Assert.assertTrue(1 == 1);
     }
 
+    @Feature("Issue")
+    @Test(groups = {"Regression", "SKIP"})
+    public void createIssue() throws InterruptedException {
+        LoginPage loginPage = new LoginPage();
+        loginPage.navigate();
+        loginPage.loginToJira("webinar5", "webinar5");
+        Assert.assertEquals(WebDriverFactory.getDriver().getCurrentUrl(), "https://jira.hillel.it/secure/Dashboard.jspa");
 
-    @Test
-    public void createIssue() {
-        this.driver.get("https://jira.hillel.it/login.jsp");
-        driver.findElement(By.xpath("//input[@name='os_username']")).sendKeys("Karina_Soltanovskaya");
-        driver.findElement(By.xpath("//input[@name='os_password']")).sendKeys("Karina_Soltanovskaya");
-        driver.findElement(By.xpath("//input[@name='login']")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://jira.hillel.it/secure/Dashboard.jspa");
-
-        driver.findElement(By.id("create_link")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("project-field")));
-        driver.findElement(By.id("issuetype-field"));
-        driver.findElement(By.id("summary")).sendKeys("This is test");
-        driver.findElement(By.xpath("//li[@data-mode='source']"));
-        driver.findElement(By.xpath("//textarea[@name='description']")).sendKeys("This is test");
-        driver.findElement(By.cssSelector("#create-issue-submit")).click();
-        Assert.assertTrue(driver.findElement(By.xpath("//a[@class='issue-created-key issue-link']")).isDisplayed());
+        CreateIssuePage newIssuePage = new CreateIssuePage();
+        newIssuePage.clickCreateNewIssueButton();
+        newIssuePage.enterProjectName("QAAUT-8");
+        newIssuePage.enterIssueType("Test");
+        newIssuePage.enterIssueSummary("Some Summary");
+        newIssuePage.enterIssueDescription("Some Desc");
+        newIssuePage.clickCreateIssue();
 
     }
 
+    @Feature("Issue")
+    @Test(groups = {"Regression", "SKIP"})
+    public void testToBeSkipped() throws InterruptedException {
 
+    }
 }
+
+
