@@ -46,4 +46,8 @@ public class LoginPage {
         enterPassword(password);
         clickLogin();
     }
+
+    public String errorMassage(){
+        return driver.findElement(wrongPasswordLabel).getText();
+    }
 }

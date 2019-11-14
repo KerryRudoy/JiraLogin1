@@ -1,5 +1,6 @@
 import io.qameta.allure.Feature;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.CreateIssuePage;
@@ -7,14 +8,32 @@ import utils.WebDriverFactory;
 
 public class JiraLogin extends BaseTest {
 
+
+    @DataProvider(name = "data-provider")
+    public Object[][] dataProviderData(){
+        return new Object[][]{
+                {"Karina_Soltanovskaya", "Karina"},
+                {"Karina", "Karina_Soltanovskaya"},
+        };
+    }
+
+    @Feature(" Unsuccessful Login Test")
+    @Test(groups = {"Regression"},dataProvider="data-provider")
+    public void  unsuccessfulLoginTest(String userName,String password) {
+        LoginPage loginPage = new LoginPage();
+        loginPage.navigate();
+        loginPage.loginToJira(userName, password);
+        Assert.assertEquals(loginPage.errorMassage(), "Sorry, your username and password are incorrect - please try again.");
+    }
+
     @Feature("Login")
     @Test(groups = {"Regression"})
     public void loginTest() {
         LoginPage loginPage = new LoginPage();
         loginPage.navigate();
-        loginPage.loginToJira("webinar5", "webinar5");
+        loginPage.loginToJira("Karina_Soltanovskaya", "Karina_Soltanovskaya");
         Assert.assertEquals(WebDriverFactory.getDriver().getCurrentUrl(), "https://jira.hillel.it/secure/Dashboard.jspa");
-        Assert.assertTrue(1 == 1);
+
     }
 
     @Feature("Issue")
@@ -22,7 +41,7 @@ public class JiraLogin extends BaseTest {
     public void createIssue() throws InterruptedException {
         LoginPage loginPage = new LoginPage();
         loginPage.navigate();
-        loginPage.loginToJira("webinar5", "webinar5");
+        loginPage.loginToJira("Karina_Soltanovskaya", "Karina_Soltanovskaya");
         Assert.assertEquals(WebDriverFactory.getDriver().getCurrentUrl(), "https://jira.hillel.it/secure/Dashboard.jspa");
 
         CreateIssuePage newIssuePage = new CreateIssuePage();
@@ -35,11 +54,6 @@ public class JiraLogin extends BaseTest {
 
     }
 
-    @Feature("Issue")
-    @Test(groups = {"Regression", "SKIP"})
-    public void testToBeSkipped() throws InterruptedException {
-
-    }
 }
 
 

@@ -17,7 +17,7 @@ import utils.WebDriverFactory;
         private By dataModeSource = By.xpath("//li[@data-mode='source']");
         private By descriptionInput = By.xpath("//textarea[@name='description']");
         private By createButton = By.cssSelector("#create-issue-submit");
-        private By issueSuccessfullyCreated = By.xpath("//div[@class='aui-message closeable aui-message-success aui-will-close']");
+        private By wrongPasswordLabel = By.xpath("//div[@class='aui-message closeable aui-message-success aui-will-close']");
 
 
         public CreateIssuePage() {
@@ -48,10 +48,6 @@ import utils.WebDriverFactory;
 
         public void clickCreateIssue() {
             utilities.click(createButton, 3, 3);
-        }
-
-        public boolean issueCreatedPopupIsPresent() {
-            return utilities.waitFor(issueSuccessfullyCreated, 3, 3).isDisplayed();
         }
 
     }
