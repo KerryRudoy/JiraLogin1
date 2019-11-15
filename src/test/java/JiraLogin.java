@@ -27,7 +27,7 @@ public class JiraLogin extends BaseTest {
     }
 
     @Feature("Login")
-    @Test(groups = {"Regression"})
+    @Test(groups = {"Smoke"})
     public void loginTest() {
         LoginPage loginPage = new LoginPage();
         loginPage.navigate();
@@ -37,7 +37,7 @@ public class JiraLogin extends BaseTest {
     }
 
     @Feature("Issue")
-    @Test(groups = {"Regression", "SKIP"})
+    @Test(groups = {"Regression"})
     public void createIssue() throws InterruptedException {
         LoginPage loginPage = new LoginPage();
         loginPage.navigate();
